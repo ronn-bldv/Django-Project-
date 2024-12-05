@@ -1,3 +1,7 @@
+Install niyo muna yung Pillow
+
+pip install Pillow
+
 Login via System
 
 username: hoon
