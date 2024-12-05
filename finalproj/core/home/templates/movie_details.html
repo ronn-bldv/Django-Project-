@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block start %}
+<div class="container mt-5">
+    <h2>{{ movie.movie_name }}</h2>
+    <div class="row">
+        {% for seat in seats %}
+            <div class="col-md-2">
+                <div class="card shadow-lg mb-3" style="width: 10rem;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ seat.seat_number }}</h5>
+                        {% if seat.is_reserved %}
+                            <p>Reserved</p>
+                        {% else %}
+                            <a href="{% url 'book-seat' movie.uid seat.uid %}" class="btn btn-success">Reserve</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
