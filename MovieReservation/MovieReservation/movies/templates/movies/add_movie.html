@@ -1,0 +1,11 @@
+<h1>Book {{ movie.title }}</h1>
+<form method="POST">
+    {% csrf_token %}
+    Seat Number: <input type="number" name="seat_number" required><br>
+    Show Time: <select name="show_time">
+        {% for time in movie.show_times.times %}
+        <option value="{{ time }}">{{ time }}</option>
+        {% endfor %}
+    </select><br>
+    <button type="submit">Add to Cart</button>
+</form>

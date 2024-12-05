@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Movies</title>
+</head>
+<body>
+    <h1>Available Movies</h1>
+    <ul>
+        {% for movie in movies %}
+        <li>
+            <h2>{{ movie.title }}</h2>
+            <p>Category: {{ movie.category.name }}</p>
+            <p>Description: {{ movie.description }}</p>
+            <p>Available Times:</p>
+            <ul>
+                {% for time in movie.times.all %}
+                <li>{{ time }}</li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'select_seats' movie.id %}">Select Seats</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

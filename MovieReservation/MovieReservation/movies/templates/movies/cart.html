@@ -1,0 +1,19 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+<h2>Your Cart</h2>
+<table>
+    <tr>
+        <th>Movie</th>
+        <th>Show Time</th>
+        <th>Seats</th>
+    </tr>
+    {% for reservation in reservations %}
+    <tr>
+        <td>{{ reservation.movie.title }}</td>
+        <td>{{ reservation.show_time }}</td>
+        <td>{{ reservation.seat_number }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

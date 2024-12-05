@@ -1,0 +1,29 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+<h2>Select Seats for {{ movie.title }}</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label for="show_time">Show Time:</label>
+    <select name="show_time">
+        {% for time in movie.show_times.times %}
+        <option value="{{ time }}">{{ time }}</option>
+        {% endfor %}
+    </select>
+
+    <h3>Available Seats:</h3>
+    <div>
+        {% for row, seats in available_seats.items %}
+        <strong>{{ row }}</strong>
+        {% for seat in seats %}
+        <label>
+            <input type="checkbox" name="selected_seats" value="{{ row }}-{{ seat }}">
+            {{ seat }}
+        </label>
+        {% endfor %}
+        <br>
+        {% endfor %}
+    </div>
+    <button type="submit">Confirm Selection</button>
+</form>
+{% endblock %}
