@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block start %}
+<div class="container mt-5">
+    <h2>Book Ticket for {{ movie.movie_name }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="date">Select Date:</label>
+            <select name="date" class="form-control" required>
+                {% for datetime in available_dates_times %}
+                    <option value="{{ datetime.date }}">{{ datetime.date }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mt-4">
+            <label for="time">Select Time:</label>
+            <select name="time" class="form-control" required>
+                {% for datetime in available_dates_times %}
+                    <option value="{{ datetime.time }}">{{ datetime.time }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mt-4">
+            <label>Select Seats:</label>
+            <div class="d-flex flex-wrap">
+                {% for datetime in available_dates_times %}
+                    {% for seat in datetime.seats.all %}
+                        {% if not seat.is_taken %}
+                            <div class="form-check mx-2 text-center">
+                                <div class="checkbox-container">
+                                    <!-- Checkbox directly above the seat number -->
+                                    <input type="checkbox" name="seats" value="{{ seat.seat_number }}" class="form-check-input" id="seat-{{ seat.seat_number }}">
+                                    <div class="seat-number-box">
+                                        {{ seat.seat_number }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <button class="btn btn-warning mt-4">Book Ticket</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .form-check {
+        width: 80px; /* Adjust the size of the seat box */
+        margin: 10px;
+        text-align: center;
+    }
+
+    .checkbox-container {
+        display: flex;
+        flex-direction: column; /* Align checkbox vertically above the seat number */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .seat-number-box {
+        background-color: #f1f1f1;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+        margin-top: 5px; /* Space between checkbox and seat number */
+    }
+
+    .form-check-input {
+        margin-bottom: 5px; /* Space between checkbox and seat number box */
+    }
+
+    /* Ensure all seat checkboxes are aligned horizontally */
+    .d-flex {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+</style>
+{% endblock %}

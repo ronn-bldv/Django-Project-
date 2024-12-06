@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block start %}
+  <style>
+    .bold {
+      margin-left: 57px;
+    }
+    .middle {
+      margin-left: 26%;
+    }
+    .card {
+      border-radius: 20px;
+    }
+    .card img {
+      border-radius: 20px;
+    }
+    .book-now-btn {
+      background-color: #ff4500;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      display: block;
+      border-radius: 10px;
+      padding: 10px 0;
+      text-decoration: none;
+    }
+    .book-now-btn:hover {
+      background-color: #ff6347;
+    }
+  </style>
+
+  <div class="container mt-5 pt-3">
+    <div class="row">
+      {% for movie in movies %}
+        <div class="col-md-3 pt-3">
+          <div class="card shadow-lg" style="width: 18rem;">
+            <img src="{{ movie.images.url }}" style="height: 450px; width: 80px:" alt="{{ movie.movie_name }}">
+            <div class="card-body">
+              <h5 class="card-title text-center text-uppercase">
+                <strong style="font-size: 28px; color:red">{{ movie.movie_name }}</strong>
+              </h5>
+              <p class="bold">
+                <b>Ticket Price:</b> ₱{{ movie.price }} <br> 
+                <strong>Genre:</strong> {{ movie.category.category_name }}
+              </p>
+              <a href="{% url 'book_movie' movie_uid=movie.uid %}" class="book-now-btn">Book Now</a>
+            </div>
+          </div>
+          <br>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

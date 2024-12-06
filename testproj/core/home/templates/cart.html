@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block start %}
+<div class="container mt-5">
+    <h2 class="text-center">Your Cart</h2>
+    <table class="table table-bordered mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>Movie</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Seats</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart.cart_items.all %}
+                <tr>
+                    <td>{{ item.movie.movie_name }}</td>
+                    <td>{{ item.movie_datetime.date|date:"F d, Y" }}</td>
+                    <td>{{ item.movie_datetime.time|time:"h:i A" }}</td>
+                    <td>
+                        {% if item.seat_numbers %}
+                            {{ item.seat_numbers|default:"N/A" }}
+                        {% else %}
+                            {{ item.seat.seat_number|default:"N/A" }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'cancel_ticket' item.uid %}" class="btn btn-danger btn-sm">Cancel</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">Your cart is empty.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if cart.cart_items.all %}
+        <div class="d-flex justify-content-end">
+            <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
