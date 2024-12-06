@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Reserve a Seat</h2>
+    <div class="seat-grid">
+        {% for seat, status in seat_status.items %}
+            <div class="seat-item">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="seat" value="{{ seat }}">
+                    <button type="submit" class="seat-button">
+                        <!-- Use if/else to set the correct image path -->
+                        {% if status == 'reserved' %}
+    <img src="{% static 'reservations/images/reserved_seat.png' %}" alt="Seat {{ seat }}" class="seat-image">
+{% else %}
+    <img src="{% static 'reservations/images/available_seat.png' %}" alt="Seat {{ seat }}" class="seat-image">
+{% endif %}
+
+                    </button>
+                </form>
+                <p>{{ seat }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+/* CSS for seat grid */
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* 10 seats per row */
+    gap: 15px;
+    justify-items: center;
+}
+.seat-item {
+    text-align: center;
+}
+.seat-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+.seat-image {
+    width: 50px;
+    height: 50px;
+}
+</style>
+{% endblock %}
